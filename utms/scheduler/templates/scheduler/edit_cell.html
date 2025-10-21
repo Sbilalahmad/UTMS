@@ -1,0 +1,44 @@
+{% load crispy_forms_tags %}
+<form method="post" action="{% url 'scheduler:edit-cell' pk %}" id="editCellForm">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label>Room</label>
+    <select name="room" class="form-select">
+      {% for r in rooms %}<option value="{{ r.id }}"{% if r.id == sched.room.id %} selected{% endif %}>{{ r.name }}</option>{% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label>Timeslot</label>
+    <select name="timeslot" class="form-select">
+      {% for t in timeslots %}<option value="{{ t.id }}"{% if t.id == sched.timeslot.id %} selected{% endif %}>{{ t }}</option>{% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label>Faculty</label>
+    <select name="faculty" class="form-select">
+      {% for f in faculty %}<option value="{{ f.id }}"{% if f.id == sched.faculty.id %} selected{% endif %}>{{ f.name }}</option>{% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-primary">Save</button>
+  <div id="conflictAlert" class="alert alert-danger mt-2 d-none"></div>
+</form>
+<script>
+document.getElementById('editCellForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const form = e.target;
+  fetch(form.action, {
+    method: 'post',
+    body: new FormData(form),
+    headers: {'X-Requested-With': 'XMLHttpRequest'}
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(data.conflicts){
+      document.getElementById('conflictAlert').textContent = JSON.stringify(data.conflicts);
+      document.getElementById('conflictAlert').classList.remove('d-none');
+    }else{
+      location.reload();
+    }
+  });
+});
+</script>

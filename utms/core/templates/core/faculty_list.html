@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Faculty</h2>
+    <a class="btn btn-primary btn-sm" href="{% url 'core:faculty-add' %}">Add Faculty</a>
+  </div>
+  <table class="table table-bordered align-middle">
+    <thead class="table-light">
+      <tr><th>Name</th><th>Email</th><th>Department</th><th class="text-center">Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for f in faculty_list %}
+      <tr>
+        <td>{{ f.name }}</td>
+        <td>{{ f.email }}</td>
+        <td>{{ f.department }}</td>
+        <td class="text-center">
+          <a class="btn btn-sm btn-warning" href="{% url 'core:faculty-edit' f.pk %}">Edit</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'core:faculty-delete' f.pk %}">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="text-muted">No faculty yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

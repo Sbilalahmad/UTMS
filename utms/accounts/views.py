@@ -1,3 +1,12 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
+from .forms import CrispyAuthenticationForm, CrispyPasswordChangeForm
+class LoginView(auth_views.LoginView):
+    template_name = 'accounts/login.html'
+    form_class = CrispyAuthenticationForm
+class LogoutView(auth_views.LogoutView):
+    next_page = 'accounts:login'
+class PasswordChangeView(auth_views.PasswordChangeView):
+    template_name = 'accounts/password_change.html'
+    form_class = CrispyPasswordChangeForm
+    success_url = reverse_lazy('home')

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Departments</h2>
+  <a class="btn btn-sm btn-primary mb-2" href="{% url 'core:department-add' %}">Add</a>
+  <table class="table table-bordered">
+    <thead><tr><th>Code</th><th>Name</th><th></th></tr></thead>
+    <tbody>
+      {% for obj in object_list %}
+        <tr>
+          <td>{{ obj.code }}</td><td>{{ obj.name }}</td>
+          <td>
+            <a class="btn btn-sm btn-warning" href="{% url 'core:department-edit' obj.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'core:department-delete' obj.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

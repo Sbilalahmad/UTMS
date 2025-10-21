@@ -1,0 +1,25 @@
+% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Admin Dashboard</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="list-group">
+        <a class="list-group-item" href="{% url 'core:department-list' %}">Departments</a>
+        <a class="list-group-item" href="{% url 'core:course-list' %}">Courses</a>
+        <a class="list-group-item" href="{% url 'core:faculty-list' %}">Faculty</a>
+        <a class="list-group-item" href="{% url 'core:room-list' %}">Rooms</a>
+        <a class="list-group-item" href="{% url 'core:timeslot-list' %}">Timeslots</a>
+        <a class="list-group-item" href="{% url 'scheduler:generate' %}">Generate Timetable</a>
+        <a class="list-group-item" href="{% url 'notifications:list' %}">Notifications</a>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h4>Master Schedule</h4><a class="list-group-item" href="{% url 'scheduler:generate' %}">Generate Timetable</a>
+      <a class="btn btn-sm btn-outline-primary" href="{% url 'scheduler:timetable-view' 'Fall' %}">Fall</a>
+      <a class="btn btn-sm btn-outline-primary" href="{% url 'scheduler:timetable-view' 'Spring' %}">Spring</a>
+      <a class="btn btn-sm btn-outline-primary" href="{% url 'scheduler:timetable-view' 'Summer' %}">Summer</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Faculty Dashboard</h2>
+  <p>Your weekly schedule:</p>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Course</th><th>Room</th><th>Timeslot</th><th>Semester</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in schedules %}
+          <tr>
+            <td>{{ s.course.code }}</td><td>{{ s.room.name }}</td><td>{{ s.timeslot }}</td><td>{{ s.semester }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">No scheduled classes.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
