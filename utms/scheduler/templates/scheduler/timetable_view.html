@@ -5,22 +5,55 @@
   <div class="table-responsive">
     <table class="table table-bordered align-middle">
       <thead class="table-light">
-        <tr><th>Course</th><th>Faculty</th><th>Room</th><th>Timeslot</th></tr>
+        <tr><th>Course</th><th>Faculty</th><th>Room</th><th>Timeslot</th>
+            {% if request.user.role == 'admin' %}<th class="text-center">Actions</th>{% endif %}
+        </tr>
       </thead>
       <tbody>
         {% for s in schedules %}
-        <tr>
+        <tr id="row-{{ s.id }}">
           <td>{{ s.course.code }}</td>
           <td>{{ s.faculty.name }}</td>
           <td>{{ s.room.name }}</td>
           <td>{{ s.timeslot }}</td>
+          {% if request.user.role == 'admin' %}
+          <td class="text-center">
+            <button class="btn btn-sm btn-warning edit-btn" data-id="{{ s.id }}">Quick Edit</button>
+          </td>
+          {% endif %}
         </tr>
         {% empty %}
-        <tr><td colspan="4" class="text-muted">No scheduled classes for this semester.</td></tr>
+        <tr><td colspan="5" class="text-muted">No scheduled classes for this semester.</td></tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
   <a class="btn btn-secondary btn-sm" href="{% url 'scheduler:generate' %}">← Back</a>
 </div>
+
+<!-- Bootstrap 5 modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Quick Edit</h5></div>
+      <div class="modal-body" id="editForm"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  const modal = new bootstrap.Modal(document.getElementById('editModal'));
+  document.querySelectorAll('.edit-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      fetch(`/scheduler/edit/${btn.dataset.id}/`, {headers:{'X-Requested-With':'XMLHttpRequest'}})
+        .then(r=>r.text())
+        .then(html=>{
+          document.getElementById('editForm').innerHTML = html;
+          modal.show();
+        });
+    });
+  });
+});
+</script>
 {% endblock %}

@@ -1,11 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from accounts.views import role_redirect   # top of file
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('redirect/', role_redirect, name='role-redirect'),  # <-- add
     path('accounts/', include('accounts.urls')),
+
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('core/', include('core.urls')),   # <-- add this
     path('scheduler/', include('scheduler.urls')),
 

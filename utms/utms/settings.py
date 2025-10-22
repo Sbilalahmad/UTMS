@@ -124,8 +124,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'home'        # after login go to home (we’ll change to dashboard next step)
+LOGIN_REDIRECT_URL = '/redirect/'        # after login go to home (we’ll change to dashboard next step)
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
 AUTH_USER_MODEL = 'accounts.User'   # must be top-level in settings.py
